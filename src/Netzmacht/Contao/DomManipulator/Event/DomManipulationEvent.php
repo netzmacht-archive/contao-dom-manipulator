@@ -20,10 +20,6 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class DomManipulationEvent extends Event
 {
-    const START_EVENT = 'dom-manipulator.start';
-
-    const STOP_EVENT = 'dom-manipulator.stop';
-
     /**
      * Template name.
      *

@@ -13,6 +13,7 @@ namespace Netzmacht\Contao\DomManipulator;
 
 use Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent;
 use Netzmacht\Contao\DomManipulator\Event\GetRulesEvent;
+use Netzmacht\Contao\DomManipulator\Event\LoadHtmlEvent;
 use Netzmacht\DomManipulator\DomManipulator;
 use Netzmacht\DomManipulator\RuleInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -61,14 +62,19 @@ class TemplateListener
         }
 
         $event = new DomManipulationEvent($templateName);
-        $this->eventDispatcher->dispatch($event::START_EVENT, $event);
+        $this->eventDispatcher->dispatch(Events::START, $event);
 
         $config      = array('encoding' => \Config::get('characterSet'));
         $manipulator = DomManipulator::forNewDocument($config, $rules, !\Config::get('debugMode'));
-        $buffer      = $manipulator->manipulate();
+
+        $event = new LoadHtmlEvent($templateName, $buffer);
+        $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
+
+        $manipulator->loadHtml($event->getHtml());
+        $buffer = $manipulator->manipulate();
 
         $event = new DomManipulationEvent($templateName);
-        $this->eventDispatcher->dispatch($event::START_EVENT, $event);
+        $this->eventDispatcher->dispatch(Events::STOP, $event);
 
         return $buffer;
     }
@@ -83,7 +89,7 @@ class TemplateListener
     private function getManipulationRules($templateName)
     {
         $event = new GetRulesEvent($templateName);
-        $this->eventDispatcher->dispatch($event::NAME, $event);
+        $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
 
         $rules = $event->getRules();
 

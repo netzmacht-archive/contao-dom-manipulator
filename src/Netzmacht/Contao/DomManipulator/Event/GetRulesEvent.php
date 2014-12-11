@@ -21,8 +21,6 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class GetRulesEvent extends Event
 {
-    const NAME = 'dom-manipulator.get-rules';
-
     /**
      * Collection of rules.
      *
@@ -45,6 +43,16 @@ class GetRulesEvent extends Event
     public function __construct($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * Get template name.
+     *
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
     }
 
     /**

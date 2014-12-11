@@ -13,6 +13,7 @@ namespace Netzmacht\Contao\DomManipulator\Subscriber;
 
 use Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent;
 use Netzmacht\Contao\DomManipulator\Event\GetRulesEvent;
+use Netzmacht\Contao\DomManipulator\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
@@ -45,9 +46,9 @@ class StopWatchSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            GetRulesEvent::NAME               => 'start',
-            DomManipulationEvent::START_EVENT => 'lap',
-            DomManipulationEvent::STOP_EVENT  => 'stop',
+            Events::GET_RULES => 'start',
+            Events::START     => 'lap',
+            Events::STOP      => 'stop',
         );
     }
 
