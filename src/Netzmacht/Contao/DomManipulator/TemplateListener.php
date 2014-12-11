@@ -100,7 +100,7 @@ class TemplateListener
     private function getManipulationRules($templateName)
     {
         $event = new GetRulesEvent($templateName);
-        $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
+        $this->eventDispatcher->dispatch(Events::GET_RULES, $event);
 
         $rules = $event->getRules();
 
