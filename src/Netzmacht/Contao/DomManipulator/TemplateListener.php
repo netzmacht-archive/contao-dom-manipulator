@@ -17,6 +17,7 @@ use Netzmacht\Contao\DomManipulator\Event\LoadHtmlEvent;
 use Netzmacht\DomManipulator\DomManipulator;
 use Netzmacht\DomManipulator\RuleInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class TemplateListener hooks into Contao to run the dom manipulation.
@@ -33,15 +34,29 @@ class TemplateListener
     private $eventDispatcher;
 
     /**
+     * Dom manipulator.
+     *
+     * @var DomManipulator
+     */
+    private $manipulator;
+
+    /**
      * Construct.
      *
-     * It's a Contao integration - so no dependency injection here.
+     * @param EventSubscriberInterface $eventSubscriber Event subscriber.
+     * @param DomManipulator           $manipulator     Dom manipulator.
      *
-     * @SuppressWarnings(PHPMD.Superglobals);
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public function __construct()
+    public function __construct(EventSubscriberInterface $eventSubscriber = null, DomManipulator $manipulator = null)
     {
-        $this->eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        if (!$manipulator) {
+            $config      = array('encoding' => \Config::get('characterSet'));
+            $manipulator = DomManipulator::forNewDocument($config, array(), !\Config::get('debugMode'));;
+        }
+
+        $this->eventDispatcher = $eventSubscriber ?: $GLOBALS['container']['event-dispatcher'];
+        $this->manipulator     = $manipulator;
     }
 
     /**
@@ -64,14 +79,11 @@ class TemplateListener
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch(Events::START, $event);
 
-        $config      = array('encoding' => \Config::get('characterSet'));
-        $manipulator = DomManipulator::forNewDocument($config, $rules, !\Config::get('debugMode'));
-
         $event = new LoadHtmlEvent($templateName, $buffer);
         $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
 
-        $manipulator->loadHtml($event->getHtml());
-        $buffer = $manipulator->manipulate();
+        $this->manipulator->loadHtml($event->getHtml());
+        $buffer = $this->manipulator->manipulate();
 
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch(Events::STOP, $event);
