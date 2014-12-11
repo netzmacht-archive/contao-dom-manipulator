@@ -11,8 +11,6 @@
 
 namespace Netzmacht\Contao\DomManipulator\Subscriber;
 
-use Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent;
-use Netzmacht\Contao\DomManipulator\Event\GetRulesEvent;
 use Netzmacht\Contao\DomManipulator\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -23,7 +21,7 @@ use Symfony\Component\Stopwatch\StopwatchEvent;
  *
  * @package Netzmacht\Contao\DomManipulator\Subscriber
  */
-class StopWatchSubscriber implements EventSubscriberInterface
+class StopwatchSubscriber implements EventSubscriberInterface
 {
     /**
      * Stop watch instance.
@@ -34,10 +32,12 @@ class StopWatchSubscriber implements EventSubscriberInterface
 
     /**
      * Construct.
+     *
+     * @param Stopwatch $stopwatch Stop watch.
      */
-    public function __construct()
+    public function __construct(Stopwatch $stopwatch)
     {
-        $this->watch = new Stopwatch();
+        $this->watch = $stopwatch;
     }
 
     /**
