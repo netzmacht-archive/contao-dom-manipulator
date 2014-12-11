@@ -12,14 +12,13 @@
 namespace Netzmacht\Contao\DomManipulator\Event;
 
 use Netzmacht\DomManipulator\RuleInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class GetRulesEvent is emitted when the template listener collects are rules which should be applied.
  *
  * @package Netzmacht\Contao\DomManipulator\Event
  */
-class GetRulesEvent extends Event
+class GetRulesEvent extends DomManipulationEvent
 {
     /**
      * Collection of rules.
@@ -27,33 +26,6 @@ class GetRulesEvent extends Event
      * @var array
      */
     private $rules = array();
-
-    /**
-     * Name of the template.
-     *
-     * @var string
-     */
-    private $templateName;
-
-    /**
-     * Construct.
-     *
-     * @param string $templateName Name of template being parsed.
-     */
-    public function __construct($templateName)
-    {
-        $this->templateName = $templateName;
-    }
-
-    /**
-     * Get template name.
-     *
-     * @return string
-     */
-    public function getTemplateName()
-    {
-        return $this->templateName;
-    }
 
     /**
      * Add a rule to the event.
