@@ -15,7 +15,7 @@ use Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent;
 use Netzmacht\Contao\DomManipulator\Event\GetRulesEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Component\Stopwatch\StopEvent;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 /**
  * Class StopWatchSubscriber
@@ -94,13 +94,13 @@ class StopWatchSubscriber implements EventSubscriberInterface
     /**
      * Format duration.
      *
-     * @param string    $name      Name of stop watch.
-     * @param StopEvent $stopEvent StopEvent.
+     * @param string         $name  Name of stop watch.
+     * @param StopwatchEvent $event Stopwatch event.
      *
      * @return string
      */
-    private function formatDuration($name, $stopEvent)
+    private function formatDuration($name, $event)
     {
-        return 'Dom manipulation ' . $name . ' time: ' . $stopEvent->getDuration() . ' ms';
+        return 'Dom manipulation ' . $name . ' time: ' . $event->getDuration() . ' ms';
     }
 }
