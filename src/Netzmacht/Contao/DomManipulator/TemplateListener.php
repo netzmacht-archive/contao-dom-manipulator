@@ -75,6 +75,8 @@ class TemplateListener
             return $buffer;
         }
 
+        $this->manipulator->addRules($rules);
+
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch(Events::START, $event);
 
