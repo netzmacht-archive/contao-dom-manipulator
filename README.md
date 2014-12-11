@@ -24,16 +24,20 @@ $ php composer.phar update
 Usage
 ----------------------------
 
-This extension hooks into the `parseFrontendTemplate` and `parseBackendTemplate` hook. It provides 3 events:
+This extension hooks into the `parseFrontendTemplate` and `parseBackendTemplate` hook. It provides 4 events:
 
- * `Netzmacht\Contao\DomManipulator\Event\GetRulesEvent::NAME`
+ * `Netzmacht\Contao\DomManipulator\Events::GET_RULES`
    If the main event you need. Here you can create your rules for the manipulator.
     
- * `Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent::START_EVENT`
+ * `Netzmacht\Contao\DomManipulator\Events::START`
    It's just a state notification event. It's called before the manipulation starts.
  
- * `Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent::STOP_EVENT`
+ * `Netzmacht\Contao\DomManipulator\Events::STOP`
    It's just a state notification event. It's called before the manipulation stops.
+    
+ * `Netzmacht\Contao\DomManipulator\Events::LOAD_HTML`
+   It's called right before the html is load into the manipulator. Use it to fix hml if something is going wrong when 
+   loading html into the dom.
 
 To get more details how to create rules have a look at
 [netzmacht/php-dom-manipulator](https://github.com/netzmacht/php-dom-manipulator).
