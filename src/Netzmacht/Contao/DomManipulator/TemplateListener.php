@@ -51,7 +51,7 @@ class TemplateListener
     {
         if (!$manipulator) {
             $config      = array('encoding' => \Config::get('characterSet'));
-            $manipulator = DomManipulator::forNewDocument($config, array(), !\Config::get('debugMode'));;
+            $manipulator = DomManipulator::forNewDocument($config, array(), !\Config::get('debugMode'));
         }
 
         $this->eventDispatcher = $eventDispatcher ?: $GLOBALS['container']['event-dispatcher'];

@@ -22,7 +22,7 @@ namespace Netzmacht\Contao\DomManipulator\Event;
 class LoadHtmlEvent extends DomManipulationEvent
 {
     /**
-     * Html being loaded;
+     * Html output.
      *
      * @var string
      */
