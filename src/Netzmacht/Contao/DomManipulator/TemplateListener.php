@@ -75,17 +75,20 @@ class TemplateListener
             return $buffer;
         }
 
-        $this->manipulator->addRules($rules);
-
+        // Notify that we start manipulation
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch(Events::START, $event);
 
+        // Load html into dom
         $event = new LoadHtmlEvent($templateName, $buffer);
         $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
-
         $this->manipulator->loadHtml($event->getHtml());
+
+        // Now manipulate the dom
+        $this->manipulator->addRules($rules);
         $buffer = $this->manipulator->manipulate();
 
+        // Notify we have finished
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch(Events::STOP, $event);
 
