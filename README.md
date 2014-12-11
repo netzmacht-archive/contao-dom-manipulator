@@ -2,6 +2,13 @@
 Contao dom document manipulator
 ===============================
 
+[![Build Status](http://img.shields.io/travis/netzmacht/contao-dom-document/master.svg?style=flat-square)](https://travis-ci.org/netzmacht/contao-dom-document)
+[![Version](http://img.shields.io/packagist/v/netzmacht/contao-dom-document.svg?style=flat-square)](http://packagist.com/packages/netzmacht/contao-dom-document)
+[![License](http://img.shields.io/packagist/l/netzmacht/contao-dom-document.svg?style=flat-square)](http://packagist.com/packages/netzmacht/contao-dom-document)
+[![Downloads](http://img.shields.io/packagist/dt/netzmacht/contao-dom-document.svg?style=flat-square)](http://packagist.com/packages/netzmacht/contao-dom-document)
+[![Contao Community Alliance coding standard](http://img.shields.io/badge/cca-coding_standard-red.svg?style=flat-square)](https://github.com/contao-community-alliance/coding-standard)
+
+
 This extension integrates the PHP dom document manipulator into Contao.
 
 Install
@@ -34,5 +41,5 @@ To get more details how to create rules have a look at
 Credits
 ----------------------------
 
-This extension initial was extracted from the [toflar/contao-css-class-replacer](https://github.com/Toflar/contao-css-class-replacer)
+This extension initially was extracted from the [toflar/contao-css-class-replacer](https://github.com/Toflar/contao-css-class-replacer)
 which is maintained by Yanick Witschi alias [@Toflar](https://github.com/Toflar).
