@@ -17,7 +17,6 @@ use Netzmacht\Contao\DomManipulator\Event\LoadHtmlEvent;
 use Netzmacht\DomManipulator\DomManipulator;
 use Netzmacht\DomManipulator\RuleInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class TemplateListener hooks into Contao to run the dom manipulation.
@@ -43,19 +42,19 @@ class TemplateListener
     /**
      * Construct.
      *
-     * @param EventSubscriberInterface $eventSubscriber Event subscriber.
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher.
      * @param DomManipulator           $manipulator     Dom manipulator.
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public function __construct(EventSubscriberInterface $eventSubscriber = null, DomManipulator $manipulator = null)
+    public function __construct(EventDispatcherInterface $eventDispatcher = null, DomManipulator $manipulator = null)
     {
         if (!$manipulator) {
             $config      = array('encoding' => \Config::get('characterSet'));
             $manipulator = DomManipulator::forNewDocument($config, array(), !\Config::get('debugMode'));;
         }
 
-        $this->eventDispatcher = $eventSubscriber ?: $GLOBALS['container']['event-dispatcher'];
+        $this->eventDispatcher = $eventDispatcher ?: $GLOBALS['container']['event-dispatcher'];
         $this->manipulator     = $manipulator;
     }
 
