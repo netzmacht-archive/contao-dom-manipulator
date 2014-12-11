@@ -14,7 +14,7 @@ namespace Netzmacht\Contao\DomManipulator\Event;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class DomManipulationEvent
+ * Class DomManipulationEvent is a state event which just notifies that something happens.
  *
  * @package Netzmacht\Contao\DomManipulator\Event
  */
@@ -36,7 +36,7 @@ class DomManipulationEvent extends Event
      *
      * @param string $templateName Template name.
      */
-    function __construct($templateName)
+    public function __construct($templateName)
     {
         $this->templateName = $templateName;
     }

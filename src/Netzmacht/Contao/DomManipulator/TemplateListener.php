@@ -18,15 +18,30 @@ use Netzmacht\DomManipulator\RuleInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class Listener
+ * Class TemplateListener hooks into Contao to run the dom manipulation.
+ *
  * @package Netzmacht\Contao\DomManipulator
  */
-class Listener
+class TemplateListener
 {
     /**
+     * Event dispatcher.
+     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+
+    /**
+     * Construct.
+     *
+     * It's a Contao integration - so no dependency injection here.
+     *
+     * @SuppressWarnings(PHPMD.Superglobals);
+     */
+    public function __construct()
+    {
+        $this->eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+    }
 
     /**
      * Manipulate the output.
@@ -35,7 +50,8 @@ class Listener
      * @param string $templateName Current template name.
      *
      * @return string
-     * @throws \Exception
+     *
+     * @throws \Exception If something went wrong during dom manipulation and debug mode is enabled.
      */
     public function manipulate($buffer, $templateName)
     {
@@ -47,7 +63,8 @@ class Listener
         $event = new DomManipulationEvent($templateName);
         $this->eventDispatcher->dispatch($event::START_EVENT, $event);
 
-        $manipulator = $this->createManipulator($rules);
+        $config      = array('encoding' => \Config::get('characterSet'));
+        $manipulator = DomManipulator::forNewDocument($config, $rules, !\Config::get('debugMode'));
         $buffer      = $manipulator->manipulate();
 
         $event = new DomManipulationEvent($templateName);
@@ -71,21 +88,5 @@ class Listener
         $rules = $event->getRules();
 
         return $rules;
-    }
-
-    /**
-     * @param RuleInterface[] $rules
-     *
-     * @return DomManipulator
-     */
-    private function createManipulator($rules)
-    {
-        return DomManipulator::forNewDocument(
-            array(
-                'encoding' => \Config::get('characterSet')
-            ),
-            $rules,
-            !\Config::get('debugMode')
-        );
     }
 }

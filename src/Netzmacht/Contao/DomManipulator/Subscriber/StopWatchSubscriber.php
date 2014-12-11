@@ -18,7 +18,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
 /**
- * Class StopWatchSubscriber
+ * Class StopWatchSubscriber integrates the debugging stopwatch for the dom manipulator.
  *
  * @package Netzmacht\Contao\DomManipulator\Subscriber
  */
@@ -34,7 +34,7 @@ class StopWatchSubscriber implements EventSubscriberInterface
     /**
      * Construct.
      */
-    function __construct()
+    public function __construct()
     {
         $this->watch = new Stopwatch();
     }

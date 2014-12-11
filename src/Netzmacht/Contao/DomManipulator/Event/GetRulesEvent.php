@@ -42,12 +42,14 @@ class GetRulesEvent extends Event
      *
      * @param string $templateName Name of template being parsed.
      */
-    function __construct($templateName)
+    public function __construct($templateName)
     {
         $this->templateName = $templateName;
     }
 
     /**
+     * Add a rule to the event.
+     *
      * @param RuleInterface $rule     Rule being added.
      * @param int           $priority Define a priority.
      *
@@ -63,8 +65,8 @@ class GetRulesEvent extends Event
     /**
      * Add multiple rules.
      *
-     * @param RuleInterface[] $rules    List of rules.
-     * @param int             $priority Priority is used for each rule.
+     * @param array|RuleInterface[] $rules    List of rules.
+     * @param int                   $priority Priority is used for each rule.
      *
      * @return $this
      */
