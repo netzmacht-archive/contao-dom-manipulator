@@ -26,8 +26,8 @@ Usage
 
 This extension hooks into the `parseFrontendTemplate` and `parseBackendTemplate` hook. It provides 4 events:
 
- * `Netzmacht\Contao\DomManipulator\Events::GET_RULES`
-   If the main event you need. Here you can create your rules for the manipulator.
+ * `Netzmacht\Contao\DomManipulator\Events::CREATE_MANIPULATOR`
+   It's the event which collects the rules and creates the manipulator.
     
  * `Netzmacht\Contao\DomManipulator\Events::START`
    It's just a state notification event. It's called before the manipulation starts.
