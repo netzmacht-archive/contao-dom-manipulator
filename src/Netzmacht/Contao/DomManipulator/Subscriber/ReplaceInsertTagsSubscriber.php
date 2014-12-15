@@ -23,9 +23,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package Netzmacht\Contao\DomManipulator\Subscriber
  */
-class ReplaceInsertTagSubscriber extends \Controller implements EventSubscriberInterface
+class ReplaceInsertTagsSubscriber extends \Controller implements EventSubscriberInterface
 {
-    public  function __construct()
+    /**
+     * Construct.
+     */
+    public function __construct()
     {
         parent::__construct();
     }

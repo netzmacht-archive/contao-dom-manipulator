@@ -16,7 +16,7 @@ $GLOBALS['TL_HOOKS']['outputBackendTemplate'][] = array(
     'manipulate'
 );
 
-$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Netzmacht\Contao\DomManipulator\Subscriber\ReplaceInsertTagSubscriber';
+//$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'Netzmacht\Contao\DomManipulator\Subscriber\ReplaceInsertTagsSubscriber';
 
 $GLOBALS['TL_HOOKS']['initializeDependencyContainer'][] = function(\Pimple $container) {
     // Add stop watch subscriber if we are in debug mode.
