@@ -6,7 +6,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 /*
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['outputFrontendTemplate'][] = array(
+$GLOBALS['TL_HOOKS']['modifyFrontendPage'][] = array(
     'Netzmacht\Contao\DomManipulator\TemplateListener',
     'manipulate'
 );
