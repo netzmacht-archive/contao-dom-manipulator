@@ -18,7 +18,7 @@ This library can be installed using composer
 
 ```
 $ php composer.phar require netzmacht/contao-dom-manipulator:~1.0
-$ php composer.phar update
+$ php composer.phar updatet 
 ```
 
 Usage
@@ -29,10 +29,10 @@ This extension hooks into the `parseFrontendTemplate` and `parseBackendTemplate`
  * `Netzmacht\Contao\DomManipulator\Events::CREATE_MANIPULATOR`
    It's the event which collects the rules and creates the manipulator.
     
- * `Netzmacht\Contao\DomManipulator\Events::START`
+ * `Netzmacht\Contao\DomManipulator\Events::START_MANIPULATE`
    It's just a state notification event. It's called before the manipulation starts.
  
- * `Netzmacht\Contao\DomManipulator\Events::STOP`
+ * `Netzmacht\Contao\DomManipulator\Events::STOP_MANIPULATE`
    It's just a state notification event. It's called before the manipulation stops.
     
  * `Netzmacht\Contao\DomManipulator\Events::LOAD_HTML`
