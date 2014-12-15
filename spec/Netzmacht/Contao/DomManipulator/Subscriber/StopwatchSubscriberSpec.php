@@ -34,9 +34,9 @@ class StopwatchSubscriberSpec extends ObjectBehavior
 
     function it_listens_to_events()
     {
-        $this->getSubscribedEvents()->shouldSubscribe(Events::START);
-        $this->getSubscribedEvents()->shouldSubscribe(Events::STOP);
-        $this->getSubscribedEvents()->shouldSubscribe(Events::GET_RULES);
+        $this->getSubscribedEvents()->shouldSubscribe(Events::START_MANIPULATE);
+        $this->getSubscribedEvents()->shouldSubscribe(Events::STOP_MANIPULATE);
+        $this->getSubscribedEvents()->shouldSubscribe(Events::CREATE_MANIPULATOR);
     }
 
     function it_starts(Stopwatch $stopwatch)

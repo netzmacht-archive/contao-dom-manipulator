@@ -11,11 +11,10 @@
 
 namespace Netzmacht\Contao\DomManipulator;
 
+use Netzmacht\Contao\DomManipulator\Event\CreateManipulatorEvent;
 use Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent;
-use Netzmacht\Contao\DomManipulator\Event\GetRulesEvent;
 use Netzmacht\Contao\DomManipulator\Event\LoadHtmlEvent;
-use Netzmacht\DomManipulator\DomManipulator;
-use Netzmacht\DomManipulator\RuleInterface;
+use Netzmacht\DomManipulator\Factory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -33,29 +32,15 @@ class TemplateListener
     private $eventDispatcher;
 
     /**
-     * Dom manipulator.
-     *
-     * @var DomManipulator
-     */
-    private $manipulator;
-
-    /**
      * Construct.
      *
      * @param EventDispatcherInterface $eventDispatcher Event dispatcher.
-     * @param DomManipulator           $manipulator     Dom manipulator.
      *
      * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher = null, DomManipulator $manipulator = null)
+    public function __construct(EventDispatcherInterface $eventDispatcher = null)
     {
-        if (!$manipulator) {
-            $config      = array('encoding' => \Config::get('characterSet'));
-            $manipulator = DomManipulator::forNewDocument($config, array(), !\Config::get('debugMode'));
-        }
-
         $this->eventDispatcher = $eventDispatcher ?: $GLOBALS['container']['event-dispatcher'];
-        $this->manipulator     = $manipulator;
     }
 
     /**
@@ -70,45 +55,34 @@ class TemplateListener
      */
     public function manipulate($buffer, $templateName)
     {
-        $rules = $this->getManipulationRules($templateName);
-        if (empty($rules)) {
+        $factory = new Factory();
+        $factory->setSilentMode(\Config::get('debugMode'));
+
+        $event = new CreateManipulatorEvent($factory, $templateName);
+        $this->eventDispatcher->dispatch(Events::CREATE_MANIPULATOR, $event);
+
+        if (!$factory->getRules()) {
             return $buffer;
         }
 
         // Notify that we start manipulation
         $event = new DomManipulationEvent($templateName);
-        $this->eventDispatcher->dispatch(Events::START, $event);
+        $this->eventDispatcher->dispatch(Events::START_MANIPULATE, $event);
+
+        $manipulator = $factory->create();
 
         // Load html into dom
         $event = new LoadHtmlEvent($templateName, $buffer);
         $this->eventDispatcher->dispatch(Events::LOAD_HTML, $event);
-        $this->manipulator->loadHtml($event->getHtml());
+        $manipulator->loadHtml($event->getHtml(), \Config::get('characterSet'));
 
         // Now manipulate the dom
-        $this->manipulator->addRules($rules);
-        $buffer = $this->manipulator->manipulate();
+        $buffer = $manipulator->manipulate();
 
         // Notify we have finished
         $event = new DomManipulationEvent($templateName);
-        $this->eventDispatcher->dispatch(Events::STOP, $event);
+        $this->eventDispatcher->dispatch(Events::STOP_MANIPULATE, $event);
 
         return $buffer;
-    }
-
-    /**
-     * Get manipulation rules for a template.
-     *
-     * @param string $templateName Template name.
-     *
-     * @return RuleInterface[]
-     */
-    private function getManipulationRules($templateName)
-    {
-        $event = new GetRulesEvent($templateName);
-        $this->eventDispatcher->dispatch(Events::GET_RULES, $event);
-
-        $rules = $event->getRules();
-
-        return $rules;
     }
 }

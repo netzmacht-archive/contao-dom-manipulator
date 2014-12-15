@@ -19,25 +19,25 @@ namespace Netzmacht\Contao\DomManipulator;
 class Events
 {
     /**
+     * Create dom manipualtor
+     *
+     * Dispatched event type is Netzmacht\Contao\DomManipulator\Event\CreateManipulatorEvent
+     */
+    const CREATE_MANIPULATOR = 'dom-manipulator.create';
+
+    /**
      * Start event is emitted before the manipulation starts.
      *
      * Dispatched event type is Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent
      */
-    const START = 'dom-manipulator.start';
+    const START_MANIPULATE = 'dom-manipulator.start';
 
     /**
      * Stop event is emitted after the manipulation finished.
      *
      * Dispatched event type is Netzmacht\Contao\DomManipulator\Event\DomManipulationEvent
      */
-    const STOP = 'dom-manipulator.stop';
-
-    /**
-     * Get rules event is emitted to collect all rules for a specific template.
-     *
-     * Dispatched event type is Netzmacht\Contao\DomManipulator\Event\GetRulesEvent
-     */
-    const GET_RULES = 'dom-manipulator.get-rules';
+    const STOP_MANIPULATE = 'dom-manipulator.stop';
 
     /**
      * Load Html event is emitted before content is loading into the dom.

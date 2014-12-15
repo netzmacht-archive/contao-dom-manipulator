@@ -24,6 +24,8 @@ class TemplateListenerSpec extends ObjectBehavior
     function let(EventDispatcherInterface $eventDispatcher, DomManipulator $manipulator)
     {
         $this->beConstructedWith($eventDispatcher, $manipulator);
+
+        \Config::set('characterSet', 'utf-8');
     }
 
     function it_is_initializable()
@@ -33,26 +35,32 @@ class TemplateListenerSpec extends ObjectBehavior
 
     function it_manipulates(EventDispatcherInterface $eventDispatcher, RuleInterface $rule)
     {
-        $eventDispatcher->dispatch(Events::GET_RULES, $this->eventArgument('GetRules'))
+        $document = new \DOMDocument();
+        $element  = $document->createElement('div');
+
+        $rule->query(Argument::type('DOMDocument'))->willReturn(array($element));
+        $rule->apply($element)->shouldBeCalled();
+
+        $eventDispatcher->dispatch(Events::CREATE_MANIPULATOR, $this->eventArgument('CreateManipulator'))
             ->shouldBeCalled()
             ->will(function($args) use($rule) {
-                    $args[1]->addRule($rule->getWrappedObject());
+                    $args[1]->getFactory()->addRule($rule->getWrappedObject());
                 }
             );
 
         $eventDispatcher->dispatch(Events::LOAD_HTML, $this->eventArgument('LoadHtml'))->shouldBeCalled();
-        $eventDispatcher->dispatch(Events::START, $this->eventArgument('DomManipulation'))->shouldBeCalled();
-        $eventDispatcher->dispatch(Events::STOP, $this->eventArgument('DomManipulation'))->shouldBeCalled();
+        $eventDispatcher->dispatch(Events::START_MANIPULATE, $this->eventArgument('DomManipulation'))->shouldBeCalled();
+        $eventDispatcher->dispatch(Events::STOP_MANIPULATE, $this->eventArgument('DomManipulation'))->shouldBeCalled();
 
         $this->manipulate(static::BUFFER, static::TEMPLATE);
     }
 
     function it_cancels_manipulation_if_no_rule_is_given(EventDispatcherInterface $eventDispatcher, RuleInterface $rule)
     {
-        $eventDispatcher->dispatch(Events::GET_RULES, $this->eventArgument('GetRules'))->shouldBeCalled();
+        $eventDispatcher->dispatch(Events::CREATE_MANIPULATOR, $this->eventArgument('CreateManipulator'))->shouldBeCalled();
         $eventDispatcher->dispatch(Events::LOAD_HTML, $this->eventArgument('LoadHtml'))->shouldNotBeCalled();
-        $eventDispatcher->dispatch(Events::START, $this->eventArgument('DomManipulation'))->shouldNotBeCalled();
-        $eventDispatcher->dispatch(Events::STOP, $this->eventArgument('DomManipulation'))->shouldNotBeCalled();
+        $eventDispatcher->dispatch(Events::START_MANIPULATE, $this->eventArgument('DomManipulation'))->shouldNotBeCalled();
+        $eventDispatcher->dispatch(Events::STOP_MANIPULATE, $this->eventArgument('DomManipulation'))->shouldNotBeCalled();
 
         $this->manipulate(static::BUFFER, static::TEMPLATE);
     }

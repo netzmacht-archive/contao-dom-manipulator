@@ -28,10 +28,12 @@ class ReplaceInsertTagsSubscriber extends \Controller implements EventSubscriber
     /**
      * Construct.
      */
+    // @codingStandardsIgnoreStart
     public function __construct()
     {
         parent::__construct();
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * {@inheritdoc}

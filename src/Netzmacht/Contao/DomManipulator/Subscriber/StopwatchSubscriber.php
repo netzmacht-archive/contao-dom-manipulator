@@ -46,9 +46,9 @@ class StopwatchSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::GET_RULES => 'start',
-            Events::START     => 'lap',
-            Events::STOP      => 'stop',
+            Events::CREATE_MANIPULATOR => 'start',
+            Events::START_MANIPULATE   => 'lap',
+            Events::STOP_MANIPULATE    => 'stop',
         );
     }
 
