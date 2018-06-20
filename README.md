@@ -2,6 +2,7 @@
 Contao dom document manipulator
 ===============================
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 [![Build Status](http://img.shields.io/travis/netzmacht/contao-dom-manipulator/master.svg?style=flat-square)](https://travis-ci.org/netzmacht/contao-dom-manipulator)
 [![Version](http://img.shields.io/packagist/v/netzmacht/contao-dom-manipulator.svg?style=flat-square)](http://packagist.com/packages/netzmacht/contao-dom-manipulator)
 [![License](http://img.shields.io/packagist/l/netzmacht/contao-dom-manipulator.svg?style=flat-square)](http://packagist.com/packages/netzmacht/contao-dom-manipulator)
